@@ -12,6 +12,9 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get(`/user/:link/:id`, function(req, res){
+  res.send(re.params);
+});
 
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
