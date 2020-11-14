@@ -1,10 +1,9 @@
 //heroku link : https://chat-app-chao.herokuapp.com/
 
-const { stringify } = require('querystring');
-
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+const port = process.env.PORT || 3000;
 
 const log = [];
 
