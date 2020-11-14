@@ -3,36 +3,26 @@
   <head>
     <title>Socket.IO chat</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="/socket.io/socket.io.js"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <div>
-        <ul id="messages">
-
+    <div class = "grid">
+      <div id="messageArea">
+        <ul id="messages"></ul>
+      </div>
+      <div id = "userList">
+        <h1 style= "text-decoration: underline; text-align: center;">Users:</h1>
+        <ul id = "users">
+          
         </ul>
+      </div>
     </div>
-
-    <div>
-        <form action="">
-        <input id="m" autocomplete="off" />
-        <button>Send</button>
-        </form>
-    </div>
+    <form id= "enter" action="">
+      <input id="m" autocomplete="off" />
+      <button>Send</button>
+    </form>
   </body>
-  
-  <script>
-    $(function () {
-      var socket = io();
-      $('form').submit(function(e){
-        e.preventDefault(); // prevents page reloading
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
-    });
-  </script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="code.js"></script>
 </html>

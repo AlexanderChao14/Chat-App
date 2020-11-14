@@ -1,27 +1,45 @@
 //heroku link : https://chat-app-chao.herokuapp.com/
 
-var express = require('express');
-const app = express();
-const port = process.env.PORT || 3000;
+const { stringify } = require('querystring');
+
+var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
-app.use(express.static('assets'));
+const log = [];
 
-app.get('/', function(req, res){
+const user = [];
+
+app.use(require('express').static('assets'));
+app.use(require('express').static('script'));
+
+app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-app.get(`/user/:link/:id`, function(req, res){
-  res.send(re.params);
-});
-
 io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-      io.emit('chat message', msg);
-    });
+  
+  const n = Date.now();
+  const username = n.toString();
+  user.push(username);
+
+  socket.emit('connection', log,username, user);
+  socket.on('chat message', (msg) => {
+    
+    const current = new Date();
+    const time = current.toTimeString().substring(0,5);
+    const who = {username, msg, time};
+
+    if(log.length <  200){
+      log.push(who);
+    }else{
+      log.shift();
+      log.push(who);
+    }
+    io.emit('chat message', log);
+  });
 });
 
 http.listen(3000, () => {
-  console.log(`Server listening on port ${port}.`);
+  console.log('listening on *:3000');
 });
