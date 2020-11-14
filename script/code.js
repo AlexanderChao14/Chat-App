@@ -16,7 +16,7 @@ window.onload  = function(){
     });
 
 
-      
+     //add new message 
     socket.on('chat message', function(log){
         // loadOld(log);
         const newMessage = document.createElement('li');
@@ -25,6 +25,7 @@ window.onload  = function(){
         messages.append(newMessage);
     });
 
+    //load chat history function
     function loadOld(log){
         log.forEach(({username, msg, time}) => {
             const newMessage = document.createElement('li');
@@ -32,12 +33,14 @@ window.onload  = function(){
             messages.append(newMessage);
         });
     }
+    
     socket.on('connection', (log,user, allUser)=>{
         username = user;
         loadOld(log);
         listUser(allUser);
     });
 
+    //add user list
     function listUser(user){
         user.forEach(id =>{
             const userName = document.createElement('li');
